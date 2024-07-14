@@ -1,3 +1,5 @@
-# Orders-API
+## Documentação da API
 
-Desenvolvimento de uma API REST com Node.JS e JavaScript. Projeto utilizado como challenge para uma vaga na empresa Jitterbit.
+Para visualizar a documentação da API, você pode acessar o Swagger UI hospedado:
+
+[Visualizar Documentação Swagger](https://andre-vlt.github.io/Orders-API/)
