@@ -1,0 +1,239 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Order-API",
+    "description": "Order-API permite o gerenciamento de pedidos para algum negócio.",
+    "version": "0.0.1",
+    "contact": {
+      "email": "andrelvalentim5@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local server (Development)"
+    }
+  ],
+  "paths": {
+    "/order": {
+      "post": {
+        "description": "Endpoint que permite a criação de novos pedidos através de uma requisição",
+        "summary": "Criação de pedido.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "numeroPedido": {
+                    "type": "string",
+                    "example": "v10089015vdb-01"
+                  },
+                  "valorTotal": {
+                    "type": "number",
+                    "example": 10000
+                  },
+                  "dataCriacao": {
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2023-07-19T12:24:11.529Z"
+                  },
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "idItem": {
+                          "type": "string",
+                          "example": 2434
+                        },
+                        "quantidadeItem": {
+                          "type": "number",
+                          "example": 1
+                        },
+                        "valorItem": {
+                          "type": "number",
+                          "example": 1000
+                        }}}}}}}}},
+        "responses": {
+          "201": {
+            "description": "Sucesso na criação."
+          },
+          "400": {
+            "description": "Requisição inválida."
+          },
+          "500": {
+            "description": "Erro no servidor."
+          }
+        }
+      }
+    },
+    "/order/{orderId}": {
+      "parameters": [
+        {
+          "name": "orderId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "put": {
+        "description": "Endpoint que permite a atualização de pedidos já cadastrados",
+        "summary": "Atualização de pedidos",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "value":{
+                    "type":"number",
+                    "example":"80000"
+                  },
+                  "creationDate":{
+                    "type": "string",
+                    "format": "date-time",
+                    "example": "2021-05-31T20:22:11.5299601+00:00"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200":{
+            "description":"Pedido atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "pedido":{
+                      "type": "object",
+                      "properties":{
+                        "orderId":{
+                          "type": "string"
+                        },
+                        "value":{
+                          "type":"number"
+                        },
+                        "creationDate":{
+                          "type": "string",
+                          "format": "date-time"
+                          }     
+                      }
+
+                    }}}}}},
+                    "404":{
+                      "description": "Pedido não encontrado",
+                      "content":{
+                        "application/json": {
+                          "example":"Not found"
+                        }
+                      }
+                      
+                    }
+                      }},
+      "delete":{
+        "summary":"Deleta pedido com base no ID",
+        "description":"A partir do ID passado como parâmetro na url, remove o pedido.",
+        "responses":{
+          "200":{
+            "description":"Removido com sucesso",
+            "content":{
+              "application/json": {
+                "example": "Deletado com sucesso"
+              }
+            }
+          },
+          "400":{
+            "description":"Pedido não encontrado",
+            "content":{
+              "application/json": {
+               "example": "Not found" 
+              }
+            }
+            
+          }}
+      },
+      "get": {
+        "description": "Endpoint que busca um pedido de acordo com o ID",
+        "summary": "Busca de pedido por ID",
+        "responses": {
+          "200": {
+            "description": "Lista obtida com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "numeroPedido": {
+                      "type": "string"
+                    },
+                    "valorTotal": {
+                      "type": "number"
+                    },
+                    "dataCriacao": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "idItem": {
+                            "type": "string"
+                          },
+                          "quantidadeItem": {
+                            "type": "number"
+                          },
+                          "valorItem": {
+                            "type": "number"
+                          }}}}}}}}},
+          "404": {
+            "description": "Pedido não encontrado",
+            "content": {
+              "application/json": {
+                "example": "Not Found"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order/list": {
+      "get": {
+        "summary": "Busca de todos os pedidos existentes",
+        "responses": {
+          "200": {
+            "description": "Sucesso na obtenção dos pedidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items":{
+                    "type": "object",
+                      "properties": {
+                          "orderId": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "number"
+                          },
+                          "creationDate": {
+                            "type": "string",
+                            "format": "date-time"
+                          }}}}}}},
+            "404":{
+              "description": "Pedidos não encontrados",
+              "content": {
+              "application/json": {
+                "example": "Not Found"
+              }}}}}
+  }
+  }}
